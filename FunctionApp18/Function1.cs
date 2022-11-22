@@ -22,10 +22,9 @@ namespace FunctionApp18
 
             string name = req.Query["name"];
 
-            string func = req.Query["Function"];
 
             HttpClient client = new HttpClient();
-            string url = Environment.GetEnvironmentVariable("exteranlURL");
+            string url = "https://google.com";//Environment.GetEnvironmentVariable("exteranlURL");
             var response = await client.GetAsync(url);
             log.LogInformation(response.StatusCode.ToString());
 
@@ -35,10 +34,6 @@ namespace FunctionApp18
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             name = name ?? data?.name;
-            if (func.Equals("true"))
-            {
-                return new OkObjectResult("azure functions rock!");
-            }
 
             string responseMessage = string.IsNullOrEmpty(name)
                 ? "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response."
